@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.5.4/dist/aframe-extras.min.js"></script>
+
+    <style>
+        #hud {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 12px 20px;
+            border: none;
+            background-color: royalblue;
+            color: white;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+
+        select {
+            font-size: 18px;
+            padding: 10px 12px;
+            border-radius: 8px;
+        }
+    </style>
+
+<body>
+    <div id="hud">
+        <select id="animationSelect">
+            <option value="CharacterArmature|Death" selected>倒れる</option>
+            <option value="CharacterArmature|Duck">しゃがむ</option>
+            <option value="CharacterArmature|HitReact">くらう</option>
+
+        </select>
+        <button id="enlargeButton">拡大</button>
+        <button id="reductionButton">縮小</button>
+        <button id="rotateButton">回転</button>
+        <button id="antirotateButton">逆回転</button>
+    </div>
+
+
+    <a-scene embedded arjs="sourceType: webcam">
+
+        <a-marker preset="hiro" smooth="true">
+            <a-entity id="model" position="0 -1 0">
+                <a-gltf-model id="character" src="rabit.glb" position="0 0 0.5" scale="0.3 0.3 0.3" rotation="-90 0 0"
+                    animation-mixer="clip: CharacterArmature|Death">
+                </a-gltf-model>
+            </a-entity>
+
+        </a-marker>
+
+        <a-entity camera></a-entity>
+
+    </a-scene>
+
+    <script>
+        const character = document.getElementById("character");
+        const animationSelect = document.getElementById("animationSelect");
+        const model = document.getElementById("model");
+        const enlargeButton = document.getElementById("enlargeButton");
+        const reductionButton = document.getElementById("reductionButton");
+        const rotateButton = document.getElementById("rotateButton");
+        const antirotateButton = document.getElementById("antirotateButton");
+
+        let size = 1;
+        function enlargeModel() {
+            size = size + 0.1;
+            model.setAttribute("scale", `${size} ${size} ${size}`);
+        }
+        enlargeButton.addEventListener("click", enlargeModel);
+
+        function reductionModel() {
+            size -= 0.1;
+            model.setAttribute("scale", `${size} ${size} ${size}`);
+        }
+        reductionButton.addEventListener("click", reductionModel);
+
+        let angle = 0;
+        function rotateModel() {
+            angle += 15;
+            model.setAttribute("rotation", `0 0 ${angle}`);
+        }
+        rotateButton.addEventListener("click", rotateModel);
+
+        function antirotateModel() {
+            angle -= 15;
+            model.setAttribute("rotation", `0 0 ${angle}`);
+        }
+        antirotateButton.addEventListener("click", antirotateModel);
+
+
+
+
+        function changeAnimation() {
+            character.setAttribute("animation-mixer", "clip", animationSelect.value)
+        }
+        animationSelect.addEventListener("change", changeAnimation);
+    </script>
+</body>
+
+</html>
