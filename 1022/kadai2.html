@@ -46,6 +46,10 @@
         <button id="reductionButton">縮小</button>
         <button id="rotateButton">回転</button>
         <button id="antirotateButton">逆回転</button>
+        <button id="ue">上</button>
+        <button id="sita">下</button>
+        <button id="migi">右</button>
+        <button id="hidari">左</button>
     </div>
 
 
@@ -57,6 +61,13 @@
                     animation-mixer="clip: CharacterArmature|Death">
                 </a-gltf-model>
             </a-entity>
+            <a-image src="sougen.jpg"
+                position="0 -1.8 0"
+                scale="1 1 1"
+                width="1.6"
+                height="0.9"
+                rotation="-90 0 0"></a-image>
+
 
         </a-marker>
 
@@ -72,6 +83,11 @@
         const reductionButton = document.getElementById("reductionButton");
         const rotateButton = document.getElementById("rotateButton");
         const antirotateButton = document.getElementById("antirotateButton");
+        const ue=document.getElementById("ue");
+        const sita=document.getElementById("sita");
+        const migi=document.getElementById("migi");
+        const hidari=document.getElementById("hidari");
+
 
         let size = 1;
         function enlargeModel() {
@@ -98,6 +114,34 @@
             model.setAttribute("rotation", `0 0 ${angle}`);
         }
         antirotateButton.addEventListener("click", antirotateModel);
+
+        
+        function moveue(){
+            let p=model.getAttribute("position");//pはポジション
+            p.z-=0.1;
+            model.setAttribute("position",p);
+        }
+        ue.addEventListener("click",moveue);
+        function movesita(){
+            let p=model.getAttribute("position");
+            p.z+=0.1;
+            model.setAttribute("position",p);
+        }
+        sita.addEventListener("click",movesita);
+        
+        function movemigi(){
+            let p=model.getAttribute("position");
+            p.x+=0.1;
+            model.setAttribute("position",p);
+        }
+        migi.addEventListener("click",movemigi);
+        function movehidari(){
+            let p=model.getAttribute("position");
+            p.x-=0.1;
+            model.setAttribute("position",p);
+        }
+        hidari.addEventListener("click",movehidari);
+        
 
 
 
