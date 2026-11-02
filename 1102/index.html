@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-face-aframe.prod.js"></script>
+    <style>
+        html,
+        body{
+            width:100%;
+            height:100%;
+        }
+        #hud{
+            position:fixed;
+            top:20px;
+            left:20px;
+            z-index:999;
+        }
+        button{
+            font-size:18px;
+            padding:10px;
+        }
+    </style>
+
+</head>
+<body>x
+    <div id="hud">
+        <button id="megane1Btn">メガネ1</button>
+        <button id="megane2Btn">メガネ2</button>
+        <button id="hatBtn">帽子</button>
+    </div>
+    <a-scene id="scene" mindar-face embedded>
+        <a-entity id="face" mindar-face-target="anchorIndex:168">
+            <!-- <a-sphere color="red" position="0 0 0" radius="0.1"></a-sphere> -->
+            <!-- <a-gltf-model
+                id="accessory"
+                src="megane1.glb"
+                position="-0.07 0.1 -0.13"
+                rotation="0 -180 0"
+                scale="0.5 0.5 0.5"
+            ></a-gltf-model> -->
+            <a-gltf-model id="accessory"></a-gltf-model>
+        
+        </a-entity>
+
+        <a-entity id="face" mindar-face-target="anchorIndex:10">
+           
+            <a-gltf-model id="ac2"></a-gltf-model>
+        
+        </a-entity>
+        <a-camera position="0 0 0"></a-camera>
+    </a-scene>
+    
+    <script>
+        const accessory=document.getElementById("accessory");
+        const ac2=document.getElementById("ac2");
+        const megane1Btn=document.getElementById("megane1Btn");
+        const megane2Btn=document.getElementById("megane2Btn");
+        const hatBtn=document.getElementById("hatBtn");
+
+        function toMegane2(){
+            accessory.setAttribute("src","megane2.glb");
+            accessory.setAttribute("position","-0.07 0.1 -0.13");
+            accessory.setAttribute("rotation","0 360 0");
+            accessory.setAttribute("scale","0.5 0.5 0.5");
+        }
+        megane2Btn.addEventListener("click",toMegane2);
+
+        function toMegane1(){
+            accessory.setAttribute("src","megane1.glb");
+            accessory.setAttribute("position","-0.07 0.1 -0.13");
+            accessory.setAttribute("rotation","0 -180 0");
+            accessory.setAttribute("scale","0.5 0.5 0.5");
+        }
+        megane1Btn.addEventListener("click",toMegane1)
+
+         function hat(){
+            ac2.setAttribute("src","wizard.glb");
+            ac2.setAttribute("position","0 0.3 -2");
+            ac2.setAttribute("rotation","0 -180 0");
+            ac2.setAttribute("scale","1.2 1.2 1.2");
+        }
+        hatBtn.addEventListener("click",hat)
+
+    </script>
+</body>
+</html>
