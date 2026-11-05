@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.5.0/dist/aframe-master.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/projapayuri/aframe-gesture-hands@v0.9.2/aframe-gesture-hands.js"></script>
+
+</head>
+<body>
+    <a-scene hands id="scene">
+    
+            <a-gltf-model
+                id="model"
+                src="c_cyan.glb"
+                animation-mixer="clip: MagicCircle_Loop"
+                position="0 0.4 -3"
+                rotation="-90 0 0"
+                scale="2 2 2"
+            ></a-gltf-model>
+       
+
+            <a-plane
+                id="gold_Panel"
+                color="gold"
+                opacity="0.8"
+                width="0.9"
+                height="0.35"
+                rotation="-10 0 0"
+                position="0.6 -0.8 -2"
+            ></a-plane>
+            <a-text value="Gold"
+                 position="0.6 -0.8 -1.9"
+                 align="center"
+                 anchor="center"
+            ></a-text>
+
+            <a-plane
+                id="rose_Panel"
+                color="pink"
+                opacity="0.8"
+                width="0.9"
+                height="0.35"
+                rotation="-10 0 0"
+                position="-1 -0.8 -2"
+            ></a-plane>
+            <a-text value="Rose"
+                 position="-1 -0.8 -1.9"
+                 color="black"
+                 align="center"
+                 anchor="center"
+            ></a-text>
+
+            
+
+            <a-camera position="0 0 0"></a-camera>
+        
+    </a-scene>
+
+    <script>
+        const scene=document.getElementById("scene");
+        const model=document.getElementById("model");
+        const rosePanel=document.getElementById("rose_Panel"); 
+        const goldPanel=document.getElementById("gold_Panel"); 
+        const circleSound=new Audio("circle.mp3");
+        
+        let wasGoldInside=false;
+        function changeGold(){
+            const inside=scene.components.hands.isPointOnEntity(8,goldPanel);
+
+            if(inside && !wasGoldInside){
+                model.setAttribute("src","c_gold.glb");
+                circleSound.currentTime=0;
+                circleSound.play();
+            }
+            wasGoldInside=inside;
+        }
+        scene.addEventListener("hand-result",changeGold);
+
+        let wasRoseInside=false;
+        function changeRose(){
+            const inside=scene.components.hands.isPointOnEntity(8,rosePanel);
+
+            if(inside && !wasRoseInside){
+                model.setAttribute("src","c_rose.glb");
+                circleSound.currentTime=0;
+                circleSound.play();
+            }
+            wasRoseInside=inside;
+        }
+        scene.addEventListener("hand-result",changeRose);
+    </script>
+    
+</body>
+</html>
