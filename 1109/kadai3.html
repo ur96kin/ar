@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.5.0/dist/aframe-master.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.6.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/projapayuri/aframe-gesture-hands@v0.9.2/aframe-gesture-hands.js"></script>
+
+</head>
+<body>
+    <a-scene hands id="scene">
+        
+        <a-gltf-model
+            id="treasure1"
+            src="treasure.glb"
+            position="0 -0.8 -2.4"
+            scale="0.5 0.5 0.5"
+        ></a-gltf-model>
+        <a-plane
+            id="choice1"
+            color="gray"
+            width="0.9"
+            height="0.35"
+            rotation="-10 0 0"
+            position="0 -0.8 -2"
+        ></a-plane>
+        <a-text
+            id="t1"
+            value="choice"
+            position="0 -0.77 -1.99"
+            color="black"
+            align="center"
+        ></a-text>
+
+        <a-gltf-model
+            id="treasure2"
+            src="treasure.glb"
+            position="-1 -0.8 -2.4"
+            scale="0.5 0.5 0.5"
+        ></a-gltf-model>
+        <a-plane
+            id="choice2"
+            color="yellow"
+            width="0.9"
+            height="0.35"
+            rotation="-10 0 0"
+            position="-1 -0.8 -2"
+        ></a-plane>
+        <a-text
+            id="t2"
+            value="choice"
+            position="-1 -0.77 -1.99"
+            color="black"
+            align="center"
+        ></a-text>
+
+        <a-gltf-model
+            id="treasure3"
+            src="treasure.glb"
+            position="1 -0.8 -2.4"
+            scale="0.5 0.5 0.5"
+        ></a-gltf-model>
+        <a-plane
+            id="choice3"
+            color="white"
+            width="0.9"
+            height="0.35"
+            rotation="-10 0 0"
+            position="1 -0.8 -2"
+        ></a-plane>
+        <a-text
+            id="t3"
+            value="choice"
+            position="1 -0.77 -1.99"
+            color="black"
+            align="center"
+        ></a-text>
+
+        <a-gltf-model
+            id="open1"
+            src="treasureOpen.glb"
+            position="0 -0.8 -2.4"
+            scale="0.5 0.5 0.5"
+            visible="false"
+        ></a-gltf-model>
+        <a-gltf-model
+            id="open2"
+            src="treasureOpen.glb"
+            position="-1 -0.8 -2.4"
+            scale="0.5 0.5 0.5"
+            visible="false"
+        ></a-gltf-model>
+        <a-gltf-model
+            id="open3"
+            src="treasureOpen.glb"
+            position="1 -0.8 -2.4"
+            scale="0.5 0.5 0.5"
+            visible="false"
+        ></a-gltf-model> 
+
+
+        <a-plane
+            id="reload"
+            color="red"
+            width="0.9"
+            height="0.35"
+            rotation="-10 0 0"
+            position="0 0.8 -2"
+        ></a-plane>
+        <a-text
+            value="Reload"
+            position="0 0.8 -1.98"
+            color="black"
+            align="center"
+        ></a-text>
+
+
+        <a-text
+            id="t4"
+            value="COGRATULATION!!"
+            position="0 0.2 -1.99"
+            color="blue"
+            scale="1.4 1.4 1.4"
+            align="center"
+            visible="false"
+            
+        ></a-text>
+        <a-text
+            id="t5"
+            value="MISSTAKE!"
+            position="0 0.2 -1.99"
+            color="red"
+            scale="1.4 1.4 1.4"
+            align="center"
+            visible="false"
+            
+        ></a-text>
+        
+
+        <a-camera position="0 0 0"></a-camera>
+    </a-scene>
+
+    <script>
+        const scene=document.getElementById("scene");
+        const treasure1=document.getElementById("treasure1");
+        const treasure2=document.getElementById("treasure2");
+        const treasure3=document.getElementById("treasure3");
+        const choice1=document.getElementById("choice1");
+        const choice2=document.getElementById("choice2");
+        const choice3=document.getElementById("choice3");
+        const t1=document.getElementById("t1");
+        const t2=document.getElementById("t2");
+        const t3=document.getElementById("t3");
+        const t4=document.getElementById("t4");
+        const t5=document.getElementById("t5");
+        
+        const reload=document.getElementById("reload");
+        const ok=new Audio("ok.mp3");
+        const re=new Audio("reloadmusic.mp3");
+        const mi=new Audio("miss.mp3");
+        let hit=Math.random()*10;
+        
+        let touch1=false;
+        function c1(){
+            const inside=scene.components.hands.isPointOnEntity(8,choice1);
+            if(hit<=3&&inside&&!touch1){
+                ok.currentTime=0;
+                ok.play();
+                treasure1.setAttribute("src","treasureOpen.glb");
+                treasure1.setAttribute("visible","true");
+                t5.setAttribute("visible","false");
+                t4.setAttribute("visible","true");
+            }             
+            if(hit>3&&inside&&!touch1){
+                mi.currentTime=0;
+                mi.play();
+                choice1.setAttribute("visible","false");
+                t1.setAttribute("visible","false");
+                t4.setAttribute("visible","false");
+                t5.setAttribute("visible","true");
+            }
+            
+            touch1=inside;
+        }
+        
+
+        let touch2=false;
+        function c2(){
+            const inside=scene.components.hands.isPointOnEntity(8,choice2);
+            if((hit>=4&&hit<=6)&&inside&&!touch2){
+                ok.currentTime=0;
+                ok.play();
+                treasure2.setAttribute("src","treasureOpen.glb");
+                treasure2.setAttribute("visible","true");
+                t5.setAttribute("visible","false");
+                t4.setAttribute("visible","true");
+            }
+            if((hit<4||hit>6)&&inside&&!touch2){
+                mi.currentTime=0;
+                mi.play();
+                choice2.setAttribute("visible","false");
+                t2.setAttribute("visible","false");
+                t4.setAttribute("visible","false");
+                t5.setAttribute("visible","true");
+            }
+            touch2=inside;
+        }
+        
+
+        let touch3=false;
+        function c3(){
+            const inside=scene.components.hands.isPointOnEntity(8,choice3);
+            if(hit>=7&&inside&&!touch3){
+                ok.currentTime=0;
+                ok.play();
+                treasure3.setAttribute("src","treasureOpen.glb");
+                treasure3.setAttribute("visible","true");
+                t5.setAttribute("visible","false");
+                t4.setAttribute("visible","true");
+            }
+            if(hit<7&&inside&&!touch3){
+                mi.currentTime=0;
+                mi.play();
+                choice3.setAttribute("visible","false");
+                t3.setAttribute("visible","false");
+                t4.setAttribute("visible","false");
+                t5.setAttribute("visible","true");
+            }
+            touch3=inside;
+        }
+
+
+        let touch4=false;
+        function c4(){
+            const inside=scene.components.hands.isPointOnEntity(8,reload);
+            if(inside&&!touch4){
+                re.currentTime=0;
+                re.play();
+                treasure1.setAttribute("src","treasure.glb");
+                treasure2.setAttribute("src","treasure.glb");
+                treasure3.setAttribute("src","treasure.glb");
+                choice1.setAttribute("visible","true");
+                t1.setAttribute("visible","true");
+                choice2.setAttribute("visible","true");
+                t2.setAttribute("visible","true");
+                choice3.setAttribute("visible","true");
+                t3.setAttribute("visible","true");
+                t4.setAttribute("visible","false");
+                t5.setAttribute("visible","false");
+                hit=Math.floor(Math.random()*10);
+            }
+            touch4=inside;
+        }
+
+
+        scene.addEventListener("hand-result",c1);
+        scene.addEventListener("hand-result",c2);
+        scene.addEventListener("hand-result",c3);
+        scene.addEventListener("hand-result",c4);
+
+        
+
+    </script>
+    
+</body>
+</html>
